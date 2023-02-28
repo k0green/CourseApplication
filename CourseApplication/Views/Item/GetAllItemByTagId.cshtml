@@ -1,0 +1,22 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model IEnumerable<CourseApplication.Models.ItemModel.ItemsDisplayModel>
+@inject IViewLocalizer Localizer
+
+
+<table class="table">
+    <tr>
+        <th>@Localizer["Name"]</th>
+        <th>@Localizer["CreateTime"]</th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Name</td>
+            <td>@item.CreateTime</td>
+            <td>
+                <a id="goto" class="btn btn-sm btn-primary" href="~/Item/ItemViewPage?itemId=@item.Id" methods="post">@Localizer["Items"]</a>
+            </td>
+        </tr>
+    }
+</table>

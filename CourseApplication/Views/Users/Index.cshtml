@@ -1,0 +1,50 @@
+﻿@*@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityUser>*@
+@model IEnumerable<CourseApplication.Models.UserDisplayModel>
+
+@{
+    ViewBag.Title = "Users";
+}
+
+<table class="table">
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+    @foreach (var user in Model)
+    {
+        <tr>
+            <td>@user.Name</td>
+            <td>@user.Email</td>
+            <td>
+                @if (user.Status == "base")
+                {
+                    <a id="block" class="btn btn-sm btn-primary" href="~/Users/ChangeStatus?id=@user.Id&newStatus=block" methods="post">Block</a>
+                }
+                else if (user.Status == "block")
+                {
+                    <a id="unlock" class="btn btn-sm btn-primary" href="~/Users/ChangeStatus?id=@user.Id&newStatus=base" methods="post">Unlock</a>
+                }
+            </td>
+            <td>
+                @if (user.Role == "admin")
+                {
+                    <a id="user" class="btn btn-sm btn-primary" href="~/Users/ChangeRole?id=@user.Id&newRole=user" methods="post">Make user</a>
+                }
+                else if (user.Role == "user")
+                {
+                    <a id="admin" class="btn btn-sm btn-primary" href="~/Users/ChangeRole?id=@user.Id&newRole=admin" methods="post">Make admin</a>
+                }
+            </td>
+            <td>
+                <a id="openPage" class="btn btn-sm btn-primary" href="~/Users/PersonalArea?name=@user.Name">View page</a>
+            </td>
+            <td>
+                <button name="delete" type="submit" class="btn btn-sm btn-danger" asp-action="DeleteUser" asp-route-id="@user.Id">Delete</button>
+            </td>
+        </tr>
+    }
+</table>

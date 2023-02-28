@@ -1,0 +1,35 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model IEnumerable<CourseApplication.Models.ItemModel.ItemsDisplayModel>
+@inject IViewLocalizer Localizer
+
+
+<h4>@ViewBag.Title</h4>
+
+
+<a id="create" class="btn btn-sm btn-primary" href="~/Item/Create" methods="post">@Localizer["Create"]</a>
+<table class="table">
+    <tr>
+        <th>@Localizer["Create"]</th>
+        <th>@Localizer["CreateTime"]</th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Name</td>
+            <td>@item.CreateTime</td>
+            <td>
+                <a id="edit" class="btn btn-sm btn-primary" href="~/Item/Edit?id=@item.Id" methods="post">@Localizer["Edit"]</a>
+            </td>
+            <td>
+                <a id="goto" class="btn btn-sm btn-primary" href="~/Item/ItemViewPage?itemId=@item.Id" methods="post">@Localizer["Items"]</a>
+            </td>
+            <td>
+                <a type="submit" class="btn btn-sm btn-danger" href="~/Item/Delete?id=@item.Id&collectionId=@item.CollectionId">@Localizer["Delete"]</a>
+            </td>
+        </tr>
+    }
+</table>

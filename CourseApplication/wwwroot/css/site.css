@@ -1,0 +1,110 @@
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+    background-color: #413c3c;
+}
+
+td {
+    color: white;
+}
+
+a {
+    color: #e1e1e1;
+}
+
+nav {
+    background-color: #4f4f4f;
+}
+
+select{
+    background-color: #413c3c;
+    color: white;
+}
+
+textarea{
+    background-color: #413c3c;
+    color: white;
+}
+
+label{
+    color: white;
+}
+
+h1{
+    color: white;
+}
+
+h4{
+    color: white;
+}
+
+h2{
+    color: white;
+}
+
+h3{
+    color: white;
+}
+
+p{
+    color: white;
+}
+
+input[text]{
+    background-color: #413c3c;
+    color: white;
+}
+
+input{
+    background-color: #413c3c;
+    color: white;
+}
+
+th{
+    color: white;
+}
+
+.form-control{
+    background-color: #413c3c;
+    color: white;
+}
+.form-control:focus{
+    background-color: #413c3c;
+    color: white;
+}
+
+.dropzone{
+    color: #413c3c;
+}
+
+.navbar .container-fluid .navbar-collapse .navbar-nav .nav-item .nav-link{
+    color: white;
+}
+
+.navbar .container-fluid .navbar-brand{
+    color: white;
+}
+
+.nav-item{
+    color: white;
+}
+
+

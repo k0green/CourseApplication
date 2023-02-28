@@ -1,0 +1,11 @@
+﻿@using CourseApplication.Models.TagModels
+@using CourseApplication.Models.CollectionModels
+@model List<CourseApplication.Models.TagModels.TagsDisplayModel>
+@foreach (var tag in Model)
+{
+    <a id="getItems" class="btn btn-sm btn-success" href="~/Item/GetAllItemByTagId?tagId=@tag.Id">@tag.Name</a>
+}
+<br/>
+<br/>
+
+

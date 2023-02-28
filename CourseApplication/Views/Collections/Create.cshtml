@@ -1,0 +1,73 @@
+﻿@using CourseApplication.Data.Entities;
+@using CourseApplication.Models.ValueTypeModel;
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer;
+@model CourseApplication.Models.CollectionModels.CreateCollectionModel;
+@{
+    var thems = (List<Theme>)ViewBag.Themes;
+    var types = (List<ValueTypeDisplayModel>)ViewBag.Types;
+    var selectTypes = new SelectList(types, "Id", "Name");
+    var url = ViewBag.PhotoUrl; 
+}
+ 
+<h2>@Localizer["Create"]</h2>
+ 
+<img src="@url" alt="Вы не загрузили фото" />
+@using (Html.BeginForm("Create", "Collections", FormMethod.Post))
+{
+    <div class="authorBlock">
+        <input type="hidden" name="CreatorId" value="@ViewBag.CreatorId">
+        <input type="hidden" name="PhotoUrl" value="@ViewBag.PhotoUrl">
+        <input placeholder="@Localizer["Name"]" name="Name">
+        <br/><br/>
+        <select asp-for="ThemeId" asp-items='new SelectList(thems, "Id", "Name")'></select>
+        <br/><br/>
+        <input placeholder="@Localizer["Description"]" name="Description">
+        <br/><br/>
+        <select id='typeSelect' asp-items='selectTypes'></select>
+    </div>
+    <div id="externalBlock">
+         
+    </div>
+    <br/>
+    <p><a id="addLink" class="btn btn-outline-primary addLink">@Localizer["AddField"]</a></p>
+    <p><input type="submit" class="btn btn-primary" value="@Localizer["Create"]" /></p>
+}
+ 
+@section Scripts {
+    <script>
+
+        function countEntries(arr, num) {
+            var amount = arr.filter(el => el === num).length;
+            if(amount<3)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+       $(function () {
+           var numbers = [];
+           var i = -1;
+           $('.addLink').click(function()
+           {
+               var val = document.getElementById("typeSelect").value;
+               if(countEntries(numbers, val))
+               {
+                   numbers.push(val);
+                    i++;
+                    var html2Add = "<div class='externalItem'>" +
+                        "<h4>Field № " + (i + 1) + "</h4>" +
+                        "<input type='text' placeholder='Name' name='CustomFields[" + i + "].FieldName' />" +
+                        "<input type='hidden' name='CustomFields[" + i + "].ValueTypeId' value='" + val + "'/>" +
+                        "</div></div></div>";
+                    $('#externalBlock').append(html2Add);
+               }
+           })
+       })
+    </script>
+    
+}

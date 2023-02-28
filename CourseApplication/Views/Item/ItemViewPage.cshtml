@@ -1,0 +1,117 @@
+﻿@using CourseApplication.Models.CommentsModels;
+@using CourseApplication.Models.CustomFieldValueModels
+@using Microsoft.AspNetCore.Mvc.Localization
+@model CourseApplication.Models.ItemModel.ItemsDisplayModel
+@inject IViewLocalizer Localizer
+
+@{
+    var fields = (List<CustomFieldValueDisplayModel>)ViewBag.CustomFields;
+    var comments = (List<CommentsDisplayModel>)ViewBag.Comments;
+    var like = (bool)ViewBag.Like;
+}
+
+<style>
+    .bi-suit-heart {
+              width: 20px;
+              height: 20px;
+    }
+    textarea {
+      width: 300px;
+      height: 120px;
+    }
+    .btn-primary{
+          width: 300px;
+          height: 50px;
+    }
+</style>
+
+<input type="hidden" id="id" value="@Model.Id"/>
+<h1>@Model.Name</h1>
+<label>@Model.CreateTime</label>
+<br/>
+<checkbox id="like" class="bi bi-suit-heart" value="@like" onclick="SendLikeValue(this.value)"></checkbox>
+
+<br/>
+@foreach (var field in fields)
+{
+    <label>@field.FieldName</label>
+    <br/>
+    <label>@field.Value</label>
+    <br/>
+}
+
+<textarea type="text" id="valueOfComment" placeholder="@Localizer["Comment"]..."></textarea>
+<input type="hidden" id="itemId" value="@Model.Id" />
+<input type="hidden" id="userId" value="@Model.Name" />
+<br/>
+<button class="btn-primary" id="Share">@Localizer["Comment"]</button>
+
+<h1>@Localizer["Comments"]</h1><br/>
+<div class="divPartial">
+    @await Html.PartialAsync("_GetComments", comments)
+</div>
+
+
+@section Scripts {
+    <script>
+    var itemId = document.getElementById('itemId').value;
+    $("#Share").on("click", function () {
+        var comment = document.getElementById('valueOfComment').value;
+        debugger;
+        var id = $(this).attr("id");
+        $.ajax({
+                url: "/Item/AddComment",
+            method: 'post',
+                data: { "Comment": comment, "ItemId": itemId },
+        });
+    });
+    </script>
+
+
+    <script>
+            function SendLikeValue(val) {
+                var itemId = document.getElementById("itemId").value;
+                if (document.getElementById("like").checked)
+                {
+                    $.ajax({
+                        url: "/Item/AddLike",
+                            method: 'post',
+                                data: { "ItemId": itemId },
+                    });
+                }
+                if (!document.getElementById("like").checked)
+                {
+                    $.ajax({
+                        url: "/Item/RemoveLike",
+                            method: 'post',
+                                data: { "ItemId": itemId },
+                    });
+                }
+            }
+        </script>
+
+
+    <script>
+    var id = document.getElementById('id').value;
+    function loadPartialView() {
+        $.ajax({
+            url: "/Item/GetComments",
+                data: { "itemId": id },
+                type: "Get",
+            success: function (result) {
+                    $('.divPartial').html(result);
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        function RefreshPartial() {
+            setTimeout(function () {
+                loadPartialView();
+                RefreshPartial();
+            }, 2000);
+        }
+        RefreshPartial();
+    });
+</script>
+}

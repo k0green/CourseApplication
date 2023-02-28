@@ -1,0 +1,184 @@
+﻿@using CourseApplication.Data.Entities
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+@*@model CourseApplication.Models.ItemModel.GetFieldsNameModel;*@
+@model List<CourseApplication.Models.CustomFieldModels.CustomFieldsDisplayModel>;
+@{
+    ViewData["Title"] = "Register";
+    var i = 0;
+}
+
+<body>
+<style>
+        #container {
+            width: 500px;
+            margin: 0 auto;
+            background: url("faux-columns.png") repeat-y;
+            overflow: hidden;
+        }
+
+        #sidebar {
+            float: left;
+        }
+
+        #content {
+            float: right;
+        }
+    </style>
+<style>
+   .column {
+    -webkit-column-width: 200px;
+    -moz-column-width: 200px;
+    column-width: 200px;
+    -webkit-column-count: 3;
+    -moz-column-count: 3;
+    column-count: 3;
+    -webkit-column-gap: 30px;
+    -moz-column-gap: 30px;
+    column-gap: 30px;
+    -webkit-column-rule: 1px solid #ccc;
+    -moz-column-rule: 1px solid #ccc;
+    column-rule: 1px solid #ccc;
+   }
+  </style>
+
+@using (Html.BeginForm("Create", "Item", FormMethod.Post))
+{
+    <header class="head-form">
+        <h2>@Localizer["Create"]</h2>
+    </header>
+
+    <input type="text" placeholder="Name" name="Name">
+    <input class="col-lg-12" type="text" id="textPerson" name="reciplientName" placeholder="Tag"/>
+    <input type="hidden" value="@ViewBag.CollectionId" name="CollectionId"/>
+    <button id="add_field_button" class="btn btn-outline-primary">@Localizer["AddTag"]</button>
+    <div class="input_fields_wrap">
+
+
+    </div>
+    
+    <div id="container">
+
+
+        <div class="column">
+            <p>
+                
+            </p>
+            <p>
+                
+            </p>
+          </div>
+        
+        
+        <div>
+            <p>
+                @foreach (var fields in Model)
+                                    {
+                                        <br/>
+                                        <h>@fields.FieldName</h>
+                                        switch (fields.ValueTypeId)
+                                        {
+                                            case "3fb729a8-c56c-4303-92be-23ab29dd5b9d":
+                                                <input placeholder="@fields.FieldName" type="datetime-local" name="CustomFields[@i].Value">
+                                                break;
+                                            case "822f8848-9b0a-4aa0-bcdb-1f50b5729e67":
+                                                <input placeholder="@fields.FieldName" type="text" name="CustomFields[@i].Value">
+                                                break;
+                                            case "7faac41c-dca2-448f-b664-c258ecbe252e":
+                                                <textarea placeholder="@fields.FieldName" name="CustomFields[@i].Value"></textarea>
+                                                break;
+                                            case "1b9097bc-1933-4d26-8915-765e0e77cde2":
+                                                <input placeholder="@fields.FieldName" type="number" name="CustomFields[@i].Value">
+                                                break;
+                                            case "ccc93b10-fcf2-4939-8ce3-a858b1b8f5ad":
+                                                <input id="ch+@i" placeholder="@fields.FieldName" value="false" type="checkbox" name="CustomFields[@i].Value" onclick="SetValue('ch+@i')">
+                                                break;
+                                        }
+                                        <input value="@fields.Id" type="hidden" name="CustomFields[@i].Id">
+                                        <input value="@fields.FieldName" type="hidden" name="CustomFields[@i].FieldName">
+                                        <input value="@fields.ValueTypeId" type="hidden" name="CustomFields[@i].ValueTypeId">
+                                        <input value="@fields.CollectionId" type="hidden" name="CustomFields[@i].CollectionId">
+                                        i++;
+                                        <br/>
+                                    }
+            </p>
+        </div>
+
+        </div>
+    <input type="submit" class="btn btn-primary" value="@Localizer["Create"]"/>
+}
+</body>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/start/jquery-ui.css">
+
+@section scripts{
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js" integrity="sha256-eTyxS0rkjpLEo16uXTS0uVCS4815lc40K2iVpWDvdSY=" crossorigin="anonymous"></script>
+
+
+        <script>
+                function SetValue(val) {
+                    var item = document.getElementById(val);
+                    if (document.getElementById(val).checked)
+                    {
+                        item.value=true;
+                    }
+                    if (!document.getElementById(val).checked)
+                    {
+                        item.value=false;
+                    }
+                }
+        </script>
+    
+    
+    <script>
+
+        $(document).ready(function () {
+                $('#textPerson').autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '/Item/AutoComplete/',
+                        data: { "prefix": request.term },
+                        type: "POST",
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return item;
+                            }))
+                        },
+                        error: function (response) {
+                            alert(response.responseText);
+                        },
+                        failure: function (response) {
+                            alert(response.responseText);
+                        }
+                    });
+                },
+                select: function (e, i) {
+                },
+                minLength: 1
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+var max_fields      = 10; 
+var wrapper   		= $(".input_fields_wrap"); 
+var add_button      = $(".btn-outline-primary"); 
+debugger;
+var x = 1; 
+$(add_button).click(function(e){ 
+e.preventDefault();
+    if(x < max_fields){
+        x++;
+                    $(wrapper).append('<div class="input-group mb-3"><input id="' + x + '" name="TagsName" placeholder="Enter tag" type="text" value="' + document.getElementById('textPerson').value + '" class="form-control" readonly><div class="input-group-append"><button class="btn btn-outline-danger remove_field" type="button">Remove</button></div></div>'); //add input box
+
+    }
+    });
+
+$(wrapper).on("click",".remove_field", function(e){ 
+    e.preventDefault(); $(this).parent('div').parent('div').remove(); x--;
+    })
+});
+    </script>
+}

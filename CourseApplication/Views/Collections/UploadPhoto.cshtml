@@ -1,0 +1,18 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer;
+
+<head>
+    <title></title>
+    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css"/>
+</head>
+<body>
+    <br/>    <br/>    <br/>
+<form id="form" name="file" method="post" enctype="multipart/form-data" data-pasley-validate class="form-horizontal form-label-left">
+    <div action="/Collections/UploadPhoto" class="dropzone" id="uploader">
+        @Localizer["Drop"]
+    </div>
+    <br/>
+    <a id="scip" class="btn btn-primary" href="~/Collections/Create?userId=@ViewBag.UserId" style="width: 100%" methods="post">@Localizer["Continue"]</a>
+</form>
+</body>

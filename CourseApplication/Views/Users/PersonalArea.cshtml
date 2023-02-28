@@ -1,0 +1,42 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model IEnumerable<CourseApplication.Models.CollectionModels.CollectionDisplayModel>
+@inject IViewLocalizer Localizer
+
+
+<h4>@ViewBag.Title@Localizer["Collection"]:</h4>
+
+
+<a id="create" class="btn btn-sm btn-primary" href="~/Collections/UploadPhoto?userId=@ViewBag.UserId" methods="post">@Localizer["Create"]</a>
+@*<table class="table">*@
+<table class="table">
+    <tr>
+        <th>@Localizer["Name"]</th>
+        <th>@Localizer["Theme"]</th>
+        <th>@Localizer["Description"]</th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+    @foreach (var collection in Model)
+    {
+        <tr>
+            <td>@collection.Name</td>
+            <td>@collection.ThemeName</td>
+            <td>@collection.Description</td>
+            <td>
+                <a id="edit" class="btn btn-sm btn-primary" href="~/Collections/Edit?id=@collection.Id" methods="post">@Localizer["Edit"]</a>
+            </td>
+            <td>
+                <a id="goto" class="btn btn-sm btn-primary" href="~/Item/GetAllItemForOneCollection?collectionId=@collection.Id" methods="post">@Localizer["Items"]</a>
+            </td>
+            <td>
+                <a id="view" class="btn btn-sm btn-primary" href="~/Collections/GetCollectionViewPage?collectionId=@collection.Id" methods="post">@Localizer["Views"]</a>
+            </td>
+            <td>
+                <a id="delete" class="btn btn-sm btn-danger" href="~/Collections/Delete?id=@collection.Id" methods="post">@Localizer["Delete"]</a>
+            </td>
+        </tr>
+    }
+</table>
+

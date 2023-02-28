@@ -1,0 +1,34 @@
+﻿@using CourseApplication.Models.ItemModel
+@using Microsoft.AspNetCore.Mvc.Localization
+@model CourseApplication.Models.CollectionModels.CollectionDisplayModel
+@inject IViewLocalizer Localizer
+
+@{
+    var items = (List<ItemsDisplayModel>)ViewBag.Items;
+}
+
+<img src="@Model.PhotoUrl" alt="Вы не загрузили фото"/>
+<br/>
+<label>@Model.Name</label>
+<br/>
+<label>@Model.Description</label>
+<br/>
+<label>@Model.ThemeName</label>
+
+<table class="table">
+    <tr>
+        <th>@Localizer["Name"]</th>
+        <th>@Localizer["CreateTime"]</th>
+        <th></th>
+    </tr>
+    @foreach (var item in items)
+    {
+        <tr>
+            <td>@item.Name</td>
+            <td>@item.CreateTime</td>
+            <td>
+                <a id="goto" class="btn btn-sm btn-primary" href="~/Item/ItemViewPage?itemId=@item.Id" methods="post">@Localizer["Items"]</a>
+            </td>
+        </tr>
+    }
+</table>

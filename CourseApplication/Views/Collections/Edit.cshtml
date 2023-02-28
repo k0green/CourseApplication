@@ -1,0 +1,95 @@
+﻿@using CourseApplication.Data.Entities;
+@using CourseApplication.Models.ValueTypeModel
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model CourseApplication.Models.CollectionModels.CollectionEditModel;
+@inject IViewLocalizer Localizer;
+@{
+    ViewData["Title"] = "Register";
+    var thems = (List<Theme>)ViewBag.Themes;
+    var types = (List<ValueTypeDisplayModel>)ViewBag.Types;
+    var selectTypes = new SelectList(types, "Id", "Name");
+    var i = -1;
+}
+
+
+<h2>@Localizer["Edit"]</h2>
+ 
+@using (Html.BeginForm("Edit", "Collections", FormMethod.Post))
+{
+    <div class="authorBlock">
+    <input type="hidden" name="PhotoUrl" value="@Model.PhotoUrl">
+        <input type="hidden" name="Id" value="@Model.Id">
+        <input placeholder="Name" name="Name" value="@Model.Name">
+        <select asp-for="ThemeId" value="@Model.ThemeId" class="form-control" asp-items='new SelectList(thems, "Id", "Name")'></select>
+        <input placeholder="Description" value="@Model.Description" name="Description">
+        <select id='typeSelect' class='form-control' asp-items='selectTypes'></select>
+        @foreach (var field in Model.CustomFields)
+        {
+            i++;
+            <div id="ex+@i" class='externalItem'>
+                <input type='text' placeholder='Name' name='CustomFields[@i].FieldName' value="@field.FieldName" />
+                <input type='hidden' name='CustomFields[@i].ValueTypeId' value='@field.ValueTypeId'/>
+                <input type='hidden' name='CustomFields[@i].CollectionId' value='@field.CollectionId'/>
+                <input type='hidden' name='CustomFields[@i].Id' value='@field.Id'/>
+                <input type='hidden' id="x+@i" name='CustomFields[@i].EditStatus' value=""/>
+                <a class="btn btn-outline-success" id="update" onclick="SetStatus('update', 'x+@i')">@Localizer["Update"]</a>
+                <a class="btn btn-outline-danger" id="delete" onclick="SetStatus('delete', 'x+@i')">@Localizer["Delete"]</a>
+            </div>
+        }
+    </div>
+    <div id="externalBlock">
+         
+    </div>
+    <p><a class="addLink">@Localizer["AddField"]</a></p>
+    <p><input type="submit" class="btn btn-primary" value="@Localizer["Edit"]" /></p>
+}
+ 
+@section Scripts {
+    <script>
+
+        function countEntries(arr, num) {
+            var amount = arr.filter(el => el === num).length;
+            if(amount<3)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+       $(function () {
+           var numbers = [];
+           i = @Model.CustomFields.Count()-1;
+           $('.addLink').click(function()
+           {
+               var val = document.getElementById("typeSelect").value;
+               if(countEntries(numbers, val))
+               {
+                   numbers.push(val);
+                    i++;
+                    var html2Add = "<div class='externalItem'>" +
+                        "<input type='text' placeholder='Name' name='CustomFields[" + i + "].FieldName' />" +
+                        "<input type='hidden' name='CustomFields[" + i + "].ValueTypeId' value='" + val + "'/>" +
+                        "<input type='hidden' name='CustomFields[" + i + "].EditStatus' value='add'/>" +
+                        "</div></div></div>";
+                    $('#externalBlock').append(html2Add);
+               }
+           })
+       })
+    </script>
+    
+    <script>
+        function SetStatus (val, id) {
+                document.getElementById(id).value = val;
+                debugger;
+                if(val === "delete")
+                {
+                    document.getElementById('e'+id).hidden=true;
+                }
+                
+        }
+    </script>
+}

@@ -1,0 +1,6 @@
+﻿@model List<CourseApplication.Models.CollectionModels.CollectionDisplayModel>
+
+@foreach (var collection in Model)
+{
+    <a id="getItems" class="btn btn-sm btn-primary" href="~/Collections/GetCollectionViewPage?collectionId=@collection.Id" methods="post">@collection.Name</a>
+}
