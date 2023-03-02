@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Runtime.InteropServices.JavaScript;
+using AutoMapper;
 using CourseApplication.Data.Entities;
 using CourseApplication.Models.ItemModel;
 using CourseApplication.Repositories;
@@ -71,5 +72,48 @@ namespace CourseApplication.Services.Impl
         }
         public async Task<GetFieldsNameModel> GetItemForCreate(string id) => await _itemRepository.GetItemForCreate(id);
 
+        public async Task<List<ItemsDisplayModel>> GetItemsForCollection(string collectionId, string type, string value)
+        {
+            var items = await _itemRepository.GetCollectionsItems(collectionId);
+            if (type == "findName")
+                items = await FilterByPartOfNameAsync(items, value);
+            else if (type == "findDay")
+                items = await FilterByCreateDayAsync(items, value);
+            else if (type == "sort")
+                items = await SortItemsByTypeAsync(items, value);
+            else if (type == "reverse")
+                items = await ReverseItemsListAsync(items);
+            return items;
+        }
+
+        public async Task<List<ItemsDisplayModel>> SortItemsByTypeAsync(List<ItemsDisplayModel> items, string type)
+        {
+            switch (type)
+            {
+                case "name":
+                    items = items.OrderBy(x => x.Name).ToList();
+                    break;
+                case "time":
+                    items = items.OrderBy(x => x.CreateTime).ToList();
+                    break;
+            }
+            return items;
+        }
+        
+        public async Task<List<ItemsDisplayModel>> ReverseItemsListAsync(IEnumerable<ItemsDisplayModel> models)
+        {
+            return models.Reverse().ToList();
+        }
+        
+        public async Task<List<ItemsDisplayModel>> FilterByCreateDayAsync(List<ItemsDisplayModel> models, string date)
+        {
+            var d = DateTime.Parse(date).ToShortDateString();
+            return models.Where(x => x.CreateTime.ToShortDateString().Contains(d)).ToList();
+        }
+        
+        public async Task<List<ItemsDisplayModel>> FilterByPartOfNameAsync(List<ItemsDisplayModel> models, string part)
+        {
+            return models.Where(x => x.Name.Contains(part)).ToList();
+        }
     }
 }

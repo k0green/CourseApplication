@@ -42,8 +42,6 @@ namespace CourseApplication.Controllers
         [HttpGet]
         public async Task<IActionResult> GetPopularTag()
         {
-            /*ViewBag.Tags = await _tagService.GetTHeMostPopularTags();
-            ViewBag.Collections = await _collectionService.GetTheMostPopularCollections();*/
             var tags = await _tagService.GetTHeMostPopularTags();
             return PartialView("_GetPopularTag", tags);
         }
@@ -59,7 +57,6 @@ namespace CourseApplication.Controllers
             ViewBag.Tags = await _tagService.GetTHeMostPopularTags();
             ViewBag.Collections = await _collectionService.GetTheMostPopularCollections();
             _skipAmount = 0;
-            //var items = await _itemService.GetNewItems();
             return View();
         }
 

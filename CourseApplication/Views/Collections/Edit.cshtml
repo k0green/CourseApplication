@@ -20,10 +20,12 @@
     <div class="authorBlock">
     <input type="hidden" name="PhotoUrl" value="@Model.PhotoUrl">
         <input type="hidden" name="Id" value="@Model.Id">
-        <input placeholder="Name" name="Name" value="@Model.Name">
-        <select asp-for="ThemeId" value="@Model.ThemeId" class="form-control" asp-items='new SelectList(thems, "Id", "Name")'></select>
-        <input placeholder="Description" value="@Model.Description" name="Description">
-        <select id='typeSelect' class='form-control' asp-items='selectTypes'></select>
+    <input placeholder="Name" name="Name" value="@Model.Name">
+            <span asp-validation-for="Name"></span>
+    <select asp-for="ThemeId" value="@Model.ThemeId" class="form-control" asp-items='new SelectList(thems, "Id", "Name")'></select>
+    <input placeholder="Description" value="@Model.Description" name="Description">
+            <span asp-validation-for="Description"></span>
+    <select id='typeSelect' class='form-control' asp-items='selectTypes'></select>
         @foreach (var field in Model.CustomFields)
         {
             i++;

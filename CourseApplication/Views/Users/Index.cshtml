@@ -1,5 +1,7 @@
 ﻿@*@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityUser>*@
+@using Microsoft.AspNetCore.Mvc.Localization
 @model IEnumerable<CourseApplication.Models.UserDisplayModel>
+@inject IViewLocalizer Localizer;
 
 @{
     ViewBag.Title = "Users";
@@ -7,7 +9,7 @@
 
 <table class="table">
     <tr>
-        <th>Name</th>
+        <th>@Localizer["Name"]</th>
         <th>Email</th>
         <th></th>
         <th></th>
@@ -22,28 +24,31 @@
             <td>
                 @if (user.Status == "base")
                 {
-                    <a id="block" class="btn btn-sm btn-primary" href="~/Users/ChangeStatus?id=@user.Id&newStatus=block" methods="post">Block</a>
+                    <a id="block" class="btn btn-sm btn-primary" href="~/Users/ChangeStatus?id=@user.Id&newStatus=block" methods="post">@Localizer["Block"]</a>
                 }
                 else if (user.Status == "block")
                 {
-                    <a id="unlock" class="btn btn-sm btn-primary" href="~/Users/ChangeStatus?id=@user.Id&newStatus=base" methods="post">Unlock</a>
+                    <a id="unlock" class="btn btn-sm btn-primary" href="~/Users/ChangeStatus?id=@user.Id&newStatus=base" methods="post">@Localizer["Base"]</a>
                 }
             </td>
             <td>
                 @if (user.Role == "admin")
                 {
-                    <a id="user" class="btn btn-sm btn-primary" href="~/Users/ChangeRole?id=@user.Id&newRole=user" methods="post">Make user</a>
+                    <a id="user" class="btn btn-sm btn-primary" href="~/Users/ChangeRole?id=@user.Id&newRole=user" methods="post">@Localizer["MakeUser"]</a>
                 }
                 else if (user.Role == "user")
                 {
-                    <a id="admin" class="btn btn-sm btn-primary" href="~/Users/ChangeRole?id=@user.Id&newRole=admin" methods="post">Make admin</a>
+                    <a id="admin" class="btn btn-sm btn-primary" href="~/Users/ChangeRole?id=@user.Id&newRole=admin" methods="post">@Localizer["MakeAdmin"]</a>
                 }
             </td>
             <td>
-                <a id="openPage" class="btn btn-sm btn-primary" href="~/Users/PersonalArea?name=@user.Name">View page</a>
+                @if (user.Role == "user")
+                {
+                <a id="openPage" class="btn btn-sm btn-primary" href="~/Users/PersonalArea?name=@user.Name">@Localizer["Page"]</a>
+                }
             </td>
             <td>
-                <button name="delete" type="submit" class="btn btn-sm btn-danger" asp-action="DeleteUser" asp-route-id="@user.Id">Delete</button>
+                <button name="delete" type="submit" class="btn btn-sm btn-danger" asp-action="DeleteUser" asp-route-id="@user.Id">@Localizer["Delete"]</button>
             </td>
         </tr>
     }

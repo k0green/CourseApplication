@@ -121,7 +121,7 @@
     <value>Тема</value>
   </data>
   <data name="Name" xml:space="preserve">
-    <value>Название</value>
+    <value>Имя</value>
   </data>
   <data name="CreateTime" xml:space="preserve">
     <value>Время создания</value>
@@ -146,5 +146,20 @@
   </data>
   <data name="Views" xml:space="preserve">
     <value>Коллекция</value>
+  </data>
+  <data name="Page" xml:space="preserve">
+    <value>Посмотреть страницу</value>
+  </data>
+  <data name="MakeUser" xml:space="preserve">
+    <value>Сделать пользователем</value>
+  </data>
+  <data name="MakeAdmin" xml:space="preserve">
+    <value>Сделать админом</value>
+  </data>
+  <data name="Block" xml:space="preserve">
+    <value>Заблокировать</value>
+  </data>
+  <data name="Base" xml:space="preserve">
+    <value>Разблокировать</value>
   </data>
 </root>

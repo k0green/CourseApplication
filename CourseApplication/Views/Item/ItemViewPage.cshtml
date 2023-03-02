@@ -25,12 +25,18 @@
     }
 </style>
 
+<input type="hidden" id="likeInput" value="@like.ToString()"/>
 <input type="hidden" id="id" value="@Model.Id"/>
 <h1>@Model.Name</h1>
 <label>@Model.CreateTime</label>
 <br/>
-<checkbox id="like" class="bi bi-suit-heart" value="@like" onclick="SendLikeValue(this.value)"></checkbox>
-
+@if (!like || like == null)
+{
+    <checkbox id="like" class="bi bi-suit-heart" value="true" onclick="SendLikeValue('true')"></checkbox>
+}else if (like)
+{
+    <checkbox id="like" class="bi bi-heart-fill" value="false"  onclick="SendLikeValue('false')"></checkbox>
+}
 <br/>
 @foreach (var field in fields)
 {
@@ -71,16 +77,27 @@
     <script>
             function SendLikeValue(val) {
                 var itemId = document.getElementById("itemId").value;
-                if (document.getElementById("like").checked)
+                var box = document.getElementById("likeInput").value;
+                debugger;
+                if (box==="False")
                 {
+                    debugger;
+                    document.getElementById("like").classList.remove("bi-suit-heart");
+                    document.getElementById("like").classList.add("bi-heart-fill");
+                    document.getElementById("likeInput").value = "True";
+                    debugger;
                     $.ajax({
                         url: "/Item/AddLike",
                             method: 'post',
                                 data: { "ItemId": itemId },
                     });
-                }
-                if (!document.getElementById("like").checked)
+                }else if (box==="True")
                 {
+                    debugger;
+                    document.getElementById("like").classList.remove("bi-heart-fill");
+                    document.getElementById("like").classList.add("bi-suit-heart");  
+                    document.getElementById("likeInput").value = "False";
+                    debugger;
                     $.ajax({
                         url: "/Item/RemoveLike",
                             method: 'post',
@@ -109,7 +126,7 @@
             setTimeout(function () {
                 loadPartialView();
                 RefreshPartial();
-            }, 2000);
+            }, 1500);
         }
         RefreshPartial();
     });

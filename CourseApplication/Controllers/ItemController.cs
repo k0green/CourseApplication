@@ -2,7 +2,9 @@
 using CourseApplication.Models.ItemModel;
 using CourseApplication.Models.LikeModels;
 using CourseApplication.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace CourseApplication.Controllers
 {
@@ -34,6 +36,7 @@ namespace CourseApplication.Controllers
             _likesService = likesService;
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> ItemViewPage(string itemId)
         {
@@ -52,14 +55,17 @@ namespace CourseApplication.Controllers
             return PartialView("_GetComments", comments);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult> AddComment(CreateCommentModel model)
         {
             model.UserId = await _userService.GetIdByName(User.Identity.Name);
-            await _commentsService.Create(model);
+            if(ModelState.IsValid)
+                await _commentsService.Create(model);
             return Ok();
         }
         
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult> AddLike(LikeCreateModel model)
         {
@@ -68,6 +74,7 @@ namespace CourseApplication.Controllers
             return Ok();
         }
         
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult> RemoveLike(LikeCreateModel model)
         {
@@ -82,12 +89,7 @@ namespace CourseApplication.Controllers
             return View(items);
         }
         
-        /*[HttpPost]
-        public async Task<ActionResult> AddComment(string comment, string userId, string itemId)
-        {
-            return Ok();
-        }*/
-        
+        [Authorize]
         public async Task<ActionResult> Delete(string id, string collectionId)
         {
             if (id != null)
@@ -97,6 +99,7 @@ namespace CourseApplication.Controllers
             return Redirect($"~/Item/GetAllItemForOneCollection?collectionId=" + collectionId);
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult> Edit(string id)
         {
@@ -104,6 +107,7 @@ namespace CourseApplication.Controllers
             return View(item);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult> Edit(EditItemModel model)
         {
@@ -111,18 +115,25 @@ namespace CourseApplication.Controllers
             {
                 await _itemService.Edit(model);
             }
+            else
+            {
+                var item = await _itemService.GetItemForEdit(model.Id);
+                return View();
+            }
             return Redirect($"~/Item/GetAllItemForOneCollection?collectionId=" + model.CollectionId);
         }
 
+        [Authorize]
         [HttpGet]
-        public async Task<ActionResult> Create()
+        public async Task<ActionResult> Create()///////////////////////////
         {
-            var id = HttpContext.Session.GetString("_CollectionId");
+            var id = HttpContext.Request.Cookies["_CollectionId"];
             var customFields = await _customFieldService.GetCustomFieldsForCollection(id);
             ViewBag.CollectionId = id;
             return View(customFields);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult> Create(CreateItemModel model)
         {
@@ -130,14 +141,28 @@ namespace CourseApplication.Controllers
             {
                 await _itemService.Create(model);
             }
+            else
+            {
+                var id = HttpContext.Request.Cookies["_CollectionId"];
+                var customFields = await _customFieldService.GetCustomFieldsForCollection(id);
+                ViewBag.CollectionId = id;
+                return View(customFields);
+            }
             return Redirect($"~/Item/GetAllItemForOneCollection?collectionId=" + model.CollectionId);
         }
-
+        
         public async Task<IActionResult> GetAllItemForOneCollection(string collectionId)
         {
-            HttpContext.Session.SetString("_CollectionId", $"{collectionId}");
+            HttpContext.Response.Cookies.Append("_CollectionId", $"{collectionId}");
             var items = await _itemService.GetCollectionsItems(collectionId);
             return View(items);
+        }
+        
+        public async Task<IActionResult> GetItemsForCollection(string type, string value)
+        {
+            var collectionId = HttpContext.Request.Cookies["_CollectionId"];
+            var items = await _itemService.GetItemsForCollection(collectionId, type, value.ToString());
+            return PartialView("_GetItemsForCollection", items);
         }
 
         [HttpPost]

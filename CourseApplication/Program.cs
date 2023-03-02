@@ -8,6 +8,7 @@ using CourseApplication.Repositories;
 using CourseApplication.Services.Impl;
 using CourseApplication.Services;
 using CourseApplication;
+using CourseApplication.Middlewares;
 using Microsoft.AspNetCore.Localization;
 
 //    //"DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=CourseApplication;Trusted_Connection=True;MultipleActiveResultSets=true"
@@ -117,6 +118,8 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseMiddleware<GeneralMiddleware>();
 
 app.UseSession();
 

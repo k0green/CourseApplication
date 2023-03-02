@@ -48,4 +48,19 @@
     <data name="Views" xml:space="preserve">
         <value>Collection</value>
     </data>
+    <data name="MakeUser" xml:space="preserve">
+        <value>Make user</value>
+    </data>
+    <data name="MakeAdmin" xml:space="preserve">
+        <value>Make admin</value>
+    </data>
+    <data name="Block" xml:space="preserve">
+        <value>Block</value>
+    </data>
+    <data name="Base" xml:space="preserve">
+        <value>Base</value>
+    </data>
+    <data name="Page" xml:space="preserve">
+        <value>View page</value>
+    </data>
 </root>

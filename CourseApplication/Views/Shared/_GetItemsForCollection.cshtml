@@ -1,10 +1,20 @@
-﻿@model List<CourseApplication.Models.CommentsModels.CommentsDisplayModel>
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model IEnumerable<CourseApplication.Models.ItemModel.ItemsDisplayModel>
+@inject IViewLocalizer Localizer
 
-
-    <h1>Comments</h1><br/>
-@foreach(var item in Model)
+@foreach (var item in Model)
 {
-    <h4>@item.UserName</h4>
-    <h5>@item.CreateTime</h5>
-    <label>@item.Comment</label>
+    <tr>
+            <td>@item.Name</td>
+            <td>@item.CreateTime</td>
+            <td>
+                <a id="edit" class="btn btn-sm btn-primary" href="~/Item/Edit?id=@item.Id" methods="post">@Localizer["Edit"]</a>
+            </td>
+            <td>
+                <a id="goto" class="btn btn-sm btn-primary" href="~/Item/ItemViewPage?itemId=@item.Id" methods="post">@Localizer["Items"]</a>
+            </td>
+            <td>
+                <a type="submit" class="btn btn-sm btn-danger" href="~/Item/Delete?id=@item.Id&collectionId=@item.CollectionId">@Localizer["Delete"]</a>
+            </td>
+    </tr>
 }

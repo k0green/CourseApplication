@@ -11,18 +11,21 @@
 }
  
 <h2>@Localizer["Create"]</h2>
- 
 <img src="@url" alt="Вы не загрузили фото" />
 @using (Html.BeginForm("Create", "Collections", FormMethod.Post))
 {
+    <div class="validation" asp-validation-summary="ModelOnly"></div>
     <div class="authorBlock">
         <input type="hidden" name="CreatorId" value="@ViewBag.CreatorId">
+        <span asp-validation-for="CreatorId"></span>
         <input type="hidden" name="PhotoUrl" value="@ViewBag.PhotoUrl">
         <input placeholder="@Localizer["Name"]" name="Name">
+        <span asp-validation-for="Name"></span>
         <br/><br/>
         <select asp-for="ThemeId" asp-items='new SelectList(thems, "Id", "Name")'></select>
         <br/><br/>
         <input placeholder="@Localizer["Description"]" name="Description">
+        <span asp-validation-for="Description"></span>
         <br/><br/>
         <select id='typeSelect' asp-items='selectTypes'></select>
     </div>

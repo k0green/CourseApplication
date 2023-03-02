@@ -8,7 +8,6 @@ namespace CourseApplication.Data.Entities
     {
         public string UserId { get; set; }
         public string ItemId { get; set; }
-        public bool LikeField { get; set; }
 
         public Item? Item { get; set; }
         public User? User { get; set; }

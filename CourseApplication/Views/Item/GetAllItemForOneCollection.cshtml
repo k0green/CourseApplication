@@ -1,13 +1,15 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization
-@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model IEnumerable<CourseApplication.Models.ItemModel.ItemsDisplayModel>
 @inject IViewLocalizer Localizer
 
-
-<h4>@ViewBag.Title</h4>
-
-
-<a id="create" class="btn btn-sm btn-primary" href="~/Item/Create" methods="post">@Localizer["Create"]</a>
+<a id="create" class="btn btn-sm btn-primary" href="~/Item/Create" methods="post">@Localizer["Create"]</a><br/>
+<a id="byName" class="btn btn-outline-primary" onclick="Sort('sort', 'name')">Sort by name</a>
+<a id="byTime" class="btn btn-outline-primary" onclick="Sort('sort', 'time')">Sort by time</a>
+<a id="reverse" class="btn btn-outline-primary" onclick="Sort('reverse', '')">Reverse</a>
+<input id="inNameInput" type="text" placeholder="What u want find.."/>
+<a id="inName" class="btn btn-outline-primary" onclick="Sort('findName', '')">Find in name</a>
+<input id="dayInput" type="datetime-local"/>
+<a id="day" class="btn btn-outline-primary" onclick="Sort('findDay', 'time')">Find day</a>
 <table class="table">
     <tr>
         <th>@Localizer["Create"]</th>
@@ -16,20 +18,32 @@
         <th></th>
         <th></th>
     </tr>
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>@item.Name</td>
-            <td>@item.CreateTime</td>
-            <td>
-                <a id="edit" class="btn btn-sm btn-primary" href="~/Item/Edit?id=@item.Id" methods="post">@Localizer["Edit"]</a>
-            </td>
-            <td>
-                <a id="goto" class="btn btn-sm btn-primary" href="~/Item/ItemViewPage?itemId=@item.Id" methods="post">@Localizer["Items"]</a>
-            </td>
-            <td>
-                <a type="submit" class="btn btn-sm btn-danger" href="~/Item/Delete?id=@item.Id&collectionId=@item.CollectionId">@Localizer["Delete"]</a>
-            </td>
-        </tr>
-    }
+    <tbody class="body">
+            @await Html.PartialAsync("_GetItemsForCollection", Model)
+    </tbody>
 </table>
+
+
+
+@section Scripts {
+    <script>
+        function Sort(type, val) {
+            $('.body').empty();
+            if (type === "findName")
+                {
+                    val = document.getElementById('inNameInput').value;
+                }
+            else if (type === "findDay")
+                {
+                    val = document.getElementById('dayInput').value;
+                }
+            $.ajax({
+            url: "/Item/GetItemsForCollection",
+                data: { "type": type, "value": val },
+            success: function (result) {
+                    $('.body').append(result);
+            }
+        });
+        }
+    </script>
+}

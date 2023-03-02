@@ -5,6 +5,7 @@ using CourseApplication.Models.CommentsModels;
 using CourseApplication.Models.CustomFieldModels;
 using CourseApplication.Models.CustomFieldValueModels;
 using CourseApplication.Models.ItemModel;
+using CourseApplication.Models.LikeModels;
 
 namespace CourseApplication;
 
@@ -24,6 +25,7 @@ public class AppMappingProfile : Profile
         CreateMap<ItemsDisplayModel, Item>().ReverseMap();
         CreateMap<EditItemModel, Item>().ReverseMap();
         CreateMap<UserItemComment, CreateCommentModel>().ReverseMap();
+        CreateMap<UserItemLike, LikeCreateModel>().ReverseMap();
         CreateMap<CustomFieldsCreateModel, CustomField>().ReverseMap();
         CreateMap<CustomFieldsDisplayModel, CustomFieldsValues >()
             .ForMember(dest => dest.CustomFieldId,

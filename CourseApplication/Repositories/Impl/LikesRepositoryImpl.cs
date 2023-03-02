@@ -25,7 +25,7 @@ namespace CourseApplication.Repositories.Impl
 
         public async Task<UserItemLike> GetLikeForUserItem(string itemId, string userId)
         {
-            var like = await _dbContext.UserItemLike.SingleOrDefaultAsync(x => x.UserId == userId && x.ItemId == itemId);
+            var like = await _dbContext.UserItemLike.FirstOrDefaultAsync(x => x.UserId == userId && x.ItemId == itemId);
             return like;
         }
 
