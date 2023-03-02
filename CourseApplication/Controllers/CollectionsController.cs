@@ -114,22 +114,6 @@ namespace CourseApplication.Controllers
             return View();
         }
         
-        private async Task<Uri> HandleJSRedirect(HttpListener http)
-        {
-            const string LoopbackHost = "http://127.0.0.1:52475/";
-            Uri JSRedirectUri = new Uri(LoopbackHost + "token");
-            var context = http.GetContext();
-
-            // We only care about request to TokenRedirectUri endpoint.
-/*            while (context.Request.Url.AbsolutePath != JSRedirectUri.AbsolutePath)
-            {
-                context = await http.GetContextAsync();
-            }*/
-
-            var redirectUri = new Uri(context.Request.QueryString["url_with_fragment"]);
-
-            return redirectUri;
-        }
         
         [HttpPost]
         public async Task<IActionResult> UploadPhoto([FromForm(Name = "file")] IFormFile formFile)
@@ -137,17 +121,6 @@ namespace CourseApplication.Controllers
             string url = "";
             using (var dbx = new DropboxClient(token))
             {
-                const string ApiKey = "uhh7kn61531ty3m";
-                const string ApiSecret = "k278w12kluoybk5";
-                const string LoopbackHost = "http://127.0.0.1:52475/";
-                var http = new HttpListener();
-                http.Prefixes.Add(LoopbackHost);
-                http.Start();
-                var redirectUri = await HandleJSRedirect(http);
-                var state = Guid.NewGuid().ToString("N");
-                Uri RedirectUri = new Uri(LoopbackHost + "authorize");
-                var token = await DropboxOAuth2Helper.ProcessCodeFlowAsync(ApiKey,ApiKey, ApiSecret);
-                var tok = token.AccessToken;
                 string folder = @"/CourseApplication";
                 using (var mem = new MemoryStream())
                 {
