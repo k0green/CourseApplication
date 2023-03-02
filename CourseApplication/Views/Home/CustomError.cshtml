@@ -1,0 +1,84 @@
+﻿@using CourseApplication.Models.TagModels
+@using CourseApplication.Models.CollectionModels
+@using Microsoft.AspNetCore.Mvc.Localization
+@model IEnumerable<CourseApplication.Models.ItemModel.ItemsDisplayModel>
+@inject IViewLocalizer Localizer
+@{
+    ViewData["Title"] = "Home Page";
+    var tags = (List<TagsDisplayModel>)ViewBag.Tags;
+    var collections = (List<CollectionDisplayModel>)ViewBag.Collections;
+}
+
+
+<div class="divPartialTag">
+    @await Html.PartialAsync("_GetPopularTag", tags)
+</div>
+<div class="divPartialCollection">
+    @await Html.PartialAsync("_GetPopularCollections", collections)
+</div>
+
+
+
+
+<table id="anyTable" class="table">
+    <tr>
+        <th>@Localizer["Name"]</th>
+        <th>@Localizer["CreateTime"]</th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+        <tbody>
+        </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        function loadTagsPartialView()  {
+          $.ajax({
+              url: '@Url.Action("GetPopularTag", "Home")',
+              success: function(result){
+                    $('.divPartialTag').html(result);
+              } 
+          });
+        }
+   
+     $(document).ready(function(){
+         function RefreshPartial(){
+             setTimeout(function(){
+                 loadTagsPartialView();
+                 RefreshPartial();
+             }, 120000);
+         }
+         RefreshPartial();
+     });
+    </script>
+
+    <script>
+            function loadCollectionsPartialView()  {
+              $.ajax({
+                  url: '@Url.Action("GetPopularCollections", "Home")',
+                  success: function(result){
+                    $('.divPartialCollection').html(result);
+                  } 
+              });
+            }
+       
+         $(document).ready(function(){
+             function RefreshPartial(){
+                 setTimeout(function(){
+                     loadCollectionsPartialView();
+                     RefreshPartial();
+                 }, 240000);
+             }
+             //initialize the loop
+             RefreshPartial();
+         });
+        </script>
+
+    <script src="~/js/InfinitiySroll.js"></script>
+
+    <script>
+            var infinityScroll = new InfinitiySroll("anyTable", "/Home/GetNewItems", {});
+        </script>
+}

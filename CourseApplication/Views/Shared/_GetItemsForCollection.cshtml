@@ -1,0 +1,10 @@
+﻿@model List<CourseApplication.Models.CommentsModels.CommentsDisplayModel>
+
+
+    <h1>Comments</h1><br/>
+@foreach(var item in Model)
+{
+    <h4>@item.UserName</h4>
+    <h5>@item.CreateTime</h5>
+    <label>@item.Comment</label>
+}
