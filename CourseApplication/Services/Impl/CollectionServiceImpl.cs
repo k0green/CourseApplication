@@ -60,13 +60,15 @@ namespace CourseApplication.Services.Impl
             var fields = createCollection.CustomFields;
             createCollection.CustomFields = null;
             await _collectionRepository.Create(createCollection, collectionId);
-            await _customFieldService.AddCustomField(fields, collectionId);
+            if(fields!=null)
+                await _customFieldService.AddCustomField(fields, collectionId);
         }
 
         public async Task Edit(CollectionEditModel collection)
         {
             var collectionEntity = _mapper.Map<Collection>(collection);
-            await _customFieldService.EditFields(collection.CustomFields, collection.Id);
+            if(collection.CustomFields!=null)
+                await _customFieldService.EditFields(collection.CustomFields, collection.Id);
             collectionEntity.CustomFields = null;
             await _collectionRepository.Edit(collectionEntity);
         } 

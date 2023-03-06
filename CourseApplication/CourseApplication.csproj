@@ -11,8 +11,16 @@
     <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
     <PackageReference Include="Dropbox.Api" Version="6.37.0" />
+    <PackageReference Include="FirebaseAuthentication.net" Version="3.0.2" />
+    <PackageReference Include="FirebaseStorage.net" Version="1.0.3" />
+    <PackageReference Include="Google.Apis.Auth" Version="1.60.0" />
     <PackageReference Include="jQuery" Version="3.6.3" />
     <PackageReference Include="jQuery.filedrop" Version="1.0.1" />
+    <PackageReference Include="Lucene.Net" Version="4.8.0-beta00016" />
+    <PackageReference Include="Lucene.Net.Analysis.Common" Version="4.8.0-beta00016" />
+    <PackageReference Include="Lucene.Net.Queries" Version="4.8.0-beta00016" />
+    <PackageReference Include="Lucene.Net.QueryParser" Version="4.8.0-beta00016" />
+    <PackageReference Include="Markdig" Version="0.31.0" />
     <PackageReference Include="Microsoft.AspNet.Web.Optimization" Version="1.1.3" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.3" />
@@ -154,6 +162,24 @@
       <LastGenOutput>_LoginPartial.en.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Views\Users\Index.ru.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>_LoginPartial.ru.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Item\GetAllItemForOneCollection.en.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>_LoginPartial.en.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Item\GetAllItemForOneCollection.ru.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>_LoginPartial.ru.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Shared\_GetItemsForCollection.en.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>_LoginPartial.en.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Shared\_GetItemsForCollection.ru.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>_LoginPartial.ru.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>

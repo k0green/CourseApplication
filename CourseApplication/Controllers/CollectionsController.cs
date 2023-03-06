@@ -1,14 +1,12 @@
-﻿using System.Net;
-using System.Security.AccessControl;
-using CourseApplication.Models.CollectionModels;
-using CourseApplication.Models.ItemModel;
+﻿using CourseApplication.Models.CollectionModels;
 using CourseApplication.Services;
 using Dropbox.Api;
 using Dropbox.Api.Files;
+using Firebase.Auth;
+using Firebase.Storage;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NuGet.Protocol;
-using System.Net.Http;
+using System.Text.Json;
 
 namespace CourseApplication.Controllers
 {
@@ -19,17 +17,26 @@ namespace CourseApplication.Controllers
         private readonly IThemService _themService;
         private readonly IItemService _itemService;
 
+        private readonly IHostEnvironment _env;
+        private static string ApiKey = "AIzaSyAUT9wX5xDenI1ABuog8jYPnhyJNMmLGqw";
+        private static string Bucket = "cwproj-a91ca.appspot.com";
+        private static string AuthEmail = "cwuser@gmail.com";
+        private static string AuthPassword = "12345aA!";
+
+
         private static string token =
-            "sl.BZhT2s-N4YcrncDDz8hMUie5I35ENf5j5aNZBYxlnBjG8S4X7nITu1imYSNVRXh8oKwTZA-vEMHb0-SkUiHhL9X7XVjcNPRQ75Y1WhaHoXtC8uKGOdXedgLQP9dZL9IsVXA9brbq";
+            "sl.BaEjSGFG6c18o56Md1FwtpIeZqGODMiSYxlFqFx2unzO_FIMCnXR0NGXeeFkLpRwXlCT4uuY5QSzQCmNdUbGW5CWjE38iRVTyMseb0d-6Lq-C23lGejUINZE-Y5y9vz_Df602k9NpNSG";
         public CollectionsController(ICollectionService collectionService,
             IThemService themService,
             IValueTypeService valueTypeService,
-            IItemService itemService)
+            IItemService itemService,
+            IHostEnvironment env)
         {
             _collectionService = collectionService;
             _themService = themService;
             _valueTypeService = valueTypeService;
             _itemService = itemService;
+            _env = env;
         }
 
         public async Task<IActionResult> GetCollectionViewPage(string collectionId)
@@ -85,6 +92,7 @@ namespace CourseApplication.Controllers
             ViewBag.Types = await _valueTypeService.GetAllTypes();
             ViewBag.CreatorId = userId;
             ViewBag.PhotoUrl = HttpContext.Request.Cookies["photoUrl"];
+            HttpContext.Response.Cookies.Delete("photoUrl");
             return View();
         }
 
@@ -121,7 +129,8 @@ namespace CourseApplication.Controllers
             string url = "";
             using (var dbx = new DropboxClient(token))
             {
-                string folder = @"/CourseApplication";
+                //string folder = @"/CourseApplication";
+                string folder = @"/DeleteCW";
                 using (var mem = new MemoryStream())
                 {
                     await formFile.CopyToAsync(mem);
@@ -137,5 +146,41 @@ namespace CourseApplication.Controllers
             return Ok();
         }
         
+        [HttpPost]
+        public async Task<IActionResult> GetPhoto([FromForm(Name = "file")] IFormFile formFile)
+        {
+            if (formFile.Length > 0)
+            {
+                using (var mem = new MemoryStream())
+                {
+                    await formFile.CopyToAsync(mem);
+                    mem.Seek(0, SeekOrigin.Begin);
+                    var auth = new FirebaseAuthProvider(new FirebaseConfig(ApiKey));
+                    var a = await auth.SignInWithEmailAndPasswordAsync(AuthEmail, AuthPassword);
+
+                    var cancellation = new CancellationTokenSource();
+
+                    var task = new FirebaseStorage(
+                            Bucket,
+                            new FirebaseStorageOptions
+                            {
+                                AuthTokenAsyncFactory = () => Task.FromResult(a.FirebaseToken),
+                                ThrowOnCancel = true
+                            })
+                        .Child("receipts")
+                        .Child(formFile.FileName)
+                        .PutAsync(mem, cancellation.Token);
+                    task.Progress.ProgressChanged += (s, e) => Console.WriteLine($"Progress: {e.Percentage} %");
+
+
+                    HttpContext.Response.Cookies.Append("photoUrl", task.TargetUrl);
+                }
+            }
+
+            return Ok();
+        }
+
+        
+
     }
 }

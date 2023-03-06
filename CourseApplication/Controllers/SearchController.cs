@@ -1,25 +1,23 @@
 ﻿using CourseApplication.Models.CollectionModels;
 using CourseApplication.Models.ItemModel;
 using CourseApplication.Repositories;
+using CourseApplication.Search;
 using CourseApplication.Services;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CourseApplication.Controllers
 {
-    public class CultureController  : Controller
+    public class SearchController  : Controller
     {
+        public SearchResultCollection Results { get; set; }
+        public string Search { get; set; }
 
-        [HttpPost]
-        public IActionResult SetCulture(string culture, string returnUrl)
+        [HttpGet]
+        public IActionResult FindSmth()
         {
-            Response.Cookies.Append(
-                CookieRequestCultureProvider.DefaultCookieName,
-                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
-                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddDays(30) }
-            );
-            Response.Cookies.Append("locale", $"{culture}");
-            return LocalRedirect(returnUrl);
+            Results = new SearchResultCollection();
+            return View(Results);
         }
     }
 }

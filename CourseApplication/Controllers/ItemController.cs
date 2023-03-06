@@ -125,7 +125,7 @@ namespace CourseApplication.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<ActionResult> Create()///////////////////////////
+        public async Task<ActionResult> Create()
         {
             var id = HttpContext.Request.Cookies["_CollectionId"];
             var customFields = await _customFieldService.GetCustomFieldsForCollection(id);
@@ -157,7 +157,7 @@ namespace CourseApplication.Controllers
             var items = await _itemService.GetCollectionsItems(collectionId);
             return View(items);
         }
-        
+
         public async Task<IActionResult> GetItemsForCollection(string type, string value)
         {
             var collectionId = HttpContext.Request.Cookies["_CollectionId"];

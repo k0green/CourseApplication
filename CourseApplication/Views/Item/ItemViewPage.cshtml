@@ -1,5 +1,7 @@
 ﻿@using CourseApplication.Models.CommentsModels;
 @using CourseApplication.Models.CustomFieldValueModels
+@using Markdig;
+@using Microsoft.AspNetCore.Components;
 @using Microsoft.AspNetCore.Mvc.Localization
 @model CourseApplication.Models.ItemModel.ItemsDisplayModel
 @inject IViewLocalizer Localizer
@@ -40,9 +42,10 @@
 <br/>
 @foreach (var field in fields)
 {
-    <label>@field.FieldName</label>
+    <h6>@field.FieldName</h6>
     <br/>
-    <label>@field.Value</label>
+    @Html.Raw((MarkupString)Markdown.ToHtml(field.Value))
+    @*<label>@field.Value</label>*@
     <br/>
 }
 

@@ -63,7 +63,7 @@ namespace CourseApplication.Controllers
         public async Task<IActionResult> GetNewItems()
         {
             var items = await _itemService.GetNewItems(_skipAmount);
-            _skipAmount += 20;
+            _skipAmount += 10;
             return PartialView("_GetNewItems", items);
         }
         

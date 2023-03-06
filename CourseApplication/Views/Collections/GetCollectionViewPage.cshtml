@@ -1,4 +1,6 @@
 ﻿@using CourseApplication.Models.ItemModel
+@using Markdig;
+@using Microsoft.AspNetCore.Components;
 @using Microsoft.AspNetCore.Mvc.Localization
 @model CourseApplication.Models.CollectionModels.CollectionDisplayModel
 @inject IViewLocalizer Localizer
@@ -9,9 +11,10 @@
 
 <img src="@Model.PhotoUrl" alt="Вы не загрузили фото"/>
 <br/>
-<label>@Model.Name</label>
+<h1>@Model.Name</h1>
 <br/>
-<label>@Model.Description</label>
+@Html.Raw((MarkupString)Markdown.ToHtml(@Model.Description))
+@*<label>@Model.Description</label>*@
 <br/>
 <label>@Model.ThemeName</label>
 

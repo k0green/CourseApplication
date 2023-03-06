@@ -30,4 +30,25 @@
     <data name="Create" xml:space="preserve">
         <value>Create</value>
     </data>
+    <data name="Items" xml:space="preserve">
+        <value>Item</value>
+    </data>
+    <data name="CreateTime" xml:space="preserve">
+        <value>Time of creation</value>
+    </data>
+    <data name="FindDay" xml:space="preserve">
+        <value>Find day</value>
+    </data>
+    <data name="FindInName" xml:space="preserve">
+        <value>Find in name</value>
+    </data>
+    <data name="Reverse" xml:space="preserve">
+        <value>Reverse</value>
+    </data>
+    <data name="SortByName" xml:space="preserve">
+        <value>Sort by name</value>
+    </data>
+    <data name="SortByTime" xml:space="preserve">
+        <value>Sort by time</value>
+    </data>
 </root>

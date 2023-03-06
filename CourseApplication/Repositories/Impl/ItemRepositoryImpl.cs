@@ -38,7 +38,7 @@ namespace CourseApplication.Repositories.Impl
         
         public async Task<List<ItemsDisplayModel>> GetNewItems(int skipAmount)
         {
-            var items = await _dbContext.Item.Skip(skipAmount).Take(20).Select(x=>new ItemsDisplayModel()
+            var items = await _dbContext.Item.Skip(skipAmount).Take(10).Select(x=>new ItemsDisplayModel()
             {
                 Id = x.Id,
                 Name = x.Name,

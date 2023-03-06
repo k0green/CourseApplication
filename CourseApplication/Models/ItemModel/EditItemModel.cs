@@ -12,7 +12,7 @@ namespace CourseApplication.Models.ItemModel
         [StringLength(30, MinimumLength = 1, ErrorMessage = "String length must be from 1 to 30 symbols")]
         public string Name { get; set; }
         public DateTime CreateTime { get; set; }
-        public List<CustomFieldValueDisplayModel> Values { get; set; }
+        public List<CustomFieldValueDisplayModel>? Values { get; set; }
         public List<TagsDisplayModel>? TagsName { get; set; }
         public string CollectionId { get; set; }
     }

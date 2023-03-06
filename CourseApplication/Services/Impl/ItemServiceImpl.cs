@@ -42,7 +42,8 @@ namespace CourseApplication.Services.Impl
             if(createItem.TagsName!=null)
                 await _tagService.Create(createItem.TagsName, item.Id);
             var values = _mapper.Map<List<CustomFieldsValues>>(createItem.CustomFields);
-            await _valueService.Add(values, item.Id);
+            if(values!=null)
+                await _valueService.Add(values, item.Id);
         }
 
         public async Task<List<ItemsDisplayModel>> GetAllItemByTagId(string tagId)
@@ -51,8 +52,10 @@ namespace CourseApplication.Services.Impl
         public async Task Edit(EditItemModel item)
         {
             var itemEntity = _mapper.Map<Item>(item);
-            await _valueService.EditFields(item.Values, item.Id);
-            await _tagService.EditItemsTag(item.TagsName, item.Id);
+            if(item.Values!=null)
+             await _valueService.EditFields(item.Values, item.Id);
+            if(item.TagsName!=null)
+                await _tagService.EditItemsTag(item.TagsName, item.Id);
             await _itemRepository.Edit(itemEntity);
         }
         public async Task<List<ItemsDisplayModel>> GetCollectionsItems(string id) => await _itemRepository.GetCollectionsItems(id);

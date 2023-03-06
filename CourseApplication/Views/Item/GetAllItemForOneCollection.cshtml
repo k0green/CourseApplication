@@ -3,13 +3,13 @@
 @inject IViewLocalizer Localizer
 
 <a id="create" class="btn btn-sm btn-primary" href="~/Item/Create" methods="post">@Localizer["Create"]</a><br/>
-<a id="byName" class="btn btn-outline-primary" onclick="Sort('sort', 'name')">Sort by name</a>
-<a id="byTime" class="btn btn-outline-primary" onclick="Sort('sort', 'time')">Sort by time</a>
-<a id="reverse" class="btn btn-outline-primary" onclick="Sort('reverse', '')">Reverse</a>
+<a id="byName" class="btn btn-outline-primary" onclick="Sort('sort', 'name')">@Localizer["SortByName"]</a>
+<a id="byTime" class="btn btn-outline-primary" onclick="Sort('sort', 'time')">@Localizer["SortByTime"]</a>
+<a id="reverse" class="btn btn-outline-primary" onclick="Sort('reverse', '')">@Localizer["Reverse"]</a>
 <input id="inNameInput" type="text" placeholder="What u want find.."/>
-<a id="inName" class="btn btn-outline-primary" onclick="Sort('findName', '')">Find in name</a>
+<a id="inName" class="btn btn-outline-primary" onclick="Sort('findName', '')">@Localizer["FindInName"]</a>
 <input id="dayInput" type="datetime-local"/>
-<a id="day" class="btn btn-outline-primary" onclick="Sort('findDay', 'time')">Find day</a>
+<a id="day" class="btn btn-outline-primary" onclick="Sort('findDay', 'time')">@Localizer["FindDay"]</a>
 <table class="table">
     <tr>
         <th>@Localizer["Create"]</th>
@@ -26,6 +26,7 @@
 
 
 @section Scripts {
+
     <script>
         function Sort(type, val) {
             $('.body').empty();

@@ -48,7 +48,7 @@
                 }
             </td>
             <td>
-                <button name="delete" type="submit" class="btn btn-sm btn-danger" asp-action="DeleteUser" asp-route-id="@user.Id">@Localizer["Delete"]</button>
+                <a id="delete" class="btn btn-sm btn-danger" href="~/Users/DeleteUser?id=@user.Id">@Localizer["Delete"]</a>
             </td>
         </tr>
     }

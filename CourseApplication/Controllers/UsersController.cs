@@ -1,7 +1,5 @@
-﻿using CourseApplication.Entities;
-using CourseApplication.Services;
+﻿using CourseApplication.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CourseApplication.Controllers
@@ -32,12 +30,11 @@ namespace CourseApplication.Controllers
             if (name!=null)
             {
                 nameUser = name;
-                //HttpContext.Session.SetString(userIdSes, $"{await _userService.GetIdByName(name)}");
                 HttpContext.Response.Cookies.Append("_Id", $"{await _userService.GetIdByName(name)}");
             }
             if(User.IsInRole("user"))
                 nameUser = User.Identity.Name;
-            ViewBag.UserId = await _userService.GetIdByName(nameUser);//
+            ViewBag.UserId = await _userService.GetIdByName(nameUser);
             ViewBag.Title = $"{nameUser}";
             var collections = await _collectionService.GetUsersCollections(await _userService.GetIdByName(nameUser));            
             return View(collections);
