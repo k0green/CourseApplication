@@ -52,7 +52,8 @@ namespace CourseApplication.Services.Impl
             return editCollection;
         }
 
-        public async Task<List<CollectionDisplayModel>> GetUsersCollections(string id) => await _collectionRepository.GetUsersCollections(id);
+        public async Task<List<CollectionDisplayModel>> GetUsersCollections(string id) 
+            => await _collectionRepository.GetUsersCollections(id);
 
         public async Task Create(CreateCollectionModel createCollection)
         {

@@ -25,7 +25,7 @@ namespace CourseApplication.Controllers
 
 
         private static string token =
-            "sl.BaEjSGFG6c18o56Md1FwtpIeZqGODMiSYxlFqFx2unzO_FIMCnXR0NGXeeFkLpRwXlCT4uuY5QSzQCmNdUbGW5CWjE38iRVTyMseb0d-6Lq-C23lGejUINZE-Y5y9vz_Df602k9NpNSG";
+            "sl.BaFsuqLL6DGNLVW-mztXtpbu54t8Bu85aOBFZKlQkn8kx5J-ZPIJYp2zam45dbBYieR1z_gOJt4aOTJhTcPCnxe4hxOm3BIu_F5DR8_Czrke-uAAe-1ioLiKS9mp0bITeHWgKYNU";
         public CollectionsController(ICollectionService collectionService,
             IThemService themService,
             IValueTypeService valueTypeService,
@@ -129,8 +129,8 @@ namespace CourseApplication.Controllers
             string url = "";
             using (var dbx = new DropboxClient(token))
             {
-                //string folder = @"/CourseApplication";
-                string folder = @"/DeleteCW";
+                string folder = @"/CourseApplication";
+                //string folder = @"/DeleteCW";
                 using (var mem = new MemoryStream())
                 {
                     await formFile.CopyToAsync(mem);

@@ -10,6 +10,9 @@
     var collections = (List<CollectionDisplayModel>)ViewBag.Collections;
 }
 <br/>
+
+<a class="btn btn-outline-primary" onclick="GetNewItem()">Get new</a>
+
 <div class="divPartialTag">
     @await Html.PartialAsync("_GetPopularTag", tags)
 </div>
@@ -74,6 +77,15 @@
              RefreshPartial();
          });
         </script>
+
+    <script>
+    function GetNewItem(){
+        debugger;
+        var itemCount = $('#' + infinityScroll.table + ' tr').length - 1;
+                        infinityScroll.AddTableLines(itemCount);  
+                        debugger;
+        }
+    </script>
 
     <script src="~/js/InfinitiySroll.js"></script>
 

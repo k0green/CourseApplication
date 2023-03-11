@@ -18,7 +18,7 @@ namespace CourseApplication.Services.Impl
             _tagRepository = tagRepository;
             _itemTagRepository = itemTagRepository;
         }
-
+        
         public async Task<List<TagsDisplayModel>> GetAllTags() => await _tagRepository.GetAllTagsAsync();
 
         public async Task<List<TagsDisplayModel>> GetTHeMostPopularTags()

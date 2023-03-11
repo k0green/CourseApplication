@@ -8,7 +8,7 @@ public class GeneralMiddleware
 
     public GeneralMiddleware(RequestDelegate next)
     {
-        this._next = next;
+        _next = next;
     }
 
     public async Task InvokeAsync(HttpContext context)
