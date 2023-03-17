@@ -18,11 +18,6 @@ namespace CourseApplication.Controllers
         private readonly IItemService _itemService;
 
         private readonly IHostEnvironment _env;
-        private static string ApiKey = "AIzaSyAUT9wX5xDenI1ABuog8jYPnhyJNMmLGqw";
-        private static string Bucket = "cwproj-a91ca.appspot.com";
-        private static string AuthEmail = "cwuser@gmail.com";
-        private static string AuthPassword = "12345aA!";
-
 
         private static string token =
             "sl.BaFsuqLL6DGNLVW-mztXtpbu54t8Bu85aOBFZKlQkn8kx5J-ZPIJYp2zam45dbBYieR1z_gOJt4aOTJhTcPCnxe4hxOm3BIu_F5DR8_Czrke-uAAe-1ioLiKS9mp0bITeHWgKYNU";
